@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+    <title>TP 3IF Ajax</title>
+    <meta name="author" content="El�d EGYED-ZSIGMOND">
+    <script type="text/javascript" src="partieJavascript.js"></script>
+  </head>
+  <body>
+    <p>File to modify/complete.</p>
+    <p>Replace the text "LES NOMS" with the content of the input field: <br>
+      <input name="button" id="myButton1" onclick="setName(document.getElementById('myText1').value);"
+
+value="1. Simple AJAX" type="button"> <input name="text" id="myText1" value="Toto"
+
+        type="text"> <br>
+      <br>
+      Load the Employees.xml file using AJAX, search for content in JavaScript,
+      and replace the text "LES NOMS" with the result. <br>
+      <input name="button2" id="myButton2" onclick="Button2_ajaxEmployees('Employees.xml');"
+
+value="2. AJAX with Employees.xml" type="button"> <br>
+      <br>
+      Load an XML file containing bibliographic references, a style sheet, apply
+      the style sheet to the XML file, and display the result at the bottom of
+      the page. <br>
+      <input name="button3" id="myButton2" onclick="Button3_ajaxBibliography('ajax.bib.xml','ajax.bib.xsl','element_to_retrieve');"
+
+value="3. AJAX with ajax.bib.xml/ajax.bib.xsl for books (Book)" type="button"> <br>
+      <br>
+      Load an XML file containing bibliographic references, a style sheet,
+      retrieve the bibliography type choice, pass it as a parameter to the style
+      sheet, apply the style sheet to the XML file, and display the result at
+      the bottom of the page. <br>
+      <label for="cars">Type of bibliography reference:</label>
+      <select name="cars" id="type_bibliographic_references">
+        <option value="Book">Book</option>
+        <option value="ArticleInJournal">Article in a journal</option>
+        <option value="Proceedings">Article in conference</option>
+      </select>
+      <br>
+      <input name="button4" id="myButton4" onclick="Button4_ajaxBibliographyWithParameters('ajax.bib.xml','ajax.bibParam.xsl','element_to_retrieve', document.getElementById('type_bibliographic_references').value);"
+
+value="4. AJAX with ajax.bib.xml/ajax.bibParam.xsl and a parameter" type="button">
+    </p>
+    <div>
+      <p>The names are: <br>
+        <span id="id_name_to_replace" style="color: red; font-weight: bold;">LES
+          NOMS (This element will be replaced by the names)</span>.</p>
+    </div>
+    <div id="id_element_to_replace">
+      <p style="color: red; font-weight: bold;">This element will be replaced by
+        a bibliography in XML formatted by an XSLT style sheet...</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+    <title>TP 3IF XPath, XSLT, XQuery, DOM, Ajax</title>
+    <meta name="author" content="Elöd EGYED-ZSIGMOND" />
+    <style type="text/css">
+<!--
+#main {
+  position: relative;
+  z-index: 0;
+  width: 90%;
+  left: 5%;
+  top: 10px;
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+#body {
+  margin: 0em 0% 0em 1%;
+  font-family: Arial,Helvetica,sans-serif;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  font-size: 90%;
+  line-height: normal;
+  font-size-adjust: none;
+  font-stretch: normal;
+}
+ 
+ #main p.xml {
+  border: 1px solid navy;
+  font-family: "Courier New",Courier,monospace;
+  background-color: #f0ffff;
+  color: black;
+  text-indent: 0em;
+}
+
+#main span.explication {
+  border: 1px solid navy;
+  background-color: #ccccff;
+  color: black;
+  }
+
+#main .instruction {
+	font-style: italic;
+	color: #006600;
+}
+.Style1 {color: #000000}
+
+-->
+  </style>
+    <link rel="stylesheet" href="highlight/styles/default.css" />
+    <script src="highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script type="text/javascript" src="fichiers%5Cajax%5CpartieJavascript.js"></script>
+    <style type="text/css">
+<!--
+.Style2 {
+	color: #FF0000;
+	font-weight: bold;
+}
+-->
+</style> </head>
+  <body>
+    <div id="main">
+      <h1>Lab 3IF XML, XSL, XQuery, Javascript, DOM 2023-2024</h1>
+      <h2>Introduction</h2>
+      <p>Read carefully and follow the instructions!</p>
+      <p>The purpose of this lab is to introduce you to the manipulation of XML
+        documents with dedicated tools and in the context of a web browser. To
+        do this, you will study, validate, modify and query an XML file. For the
+        first part of the lab, you will use the EditiX tool <span class="instruction">(
+          <code></code>available in the Tools archive for the lab on Moodle) and
+          Firefox</span> , for the second part essentially the Firefox browser.</p>
+      <p class="instruction">A very useful site for practical work: <a href="http://www.w3schools.com/default.asp"
+          onclick="window.open(this.href); return false;">W3Schools</a>
+        (reference and tutorials on XML, DTD/Schema, XSL, javascript, ...)</p>
+      <p>For the report, you will create a file named B3XXX_TPDW.zip (XXX is
+        your pair number) in which you will put: a "main" text or html document
+        containing your commented answers to the questions of the first part
+        (XPath), the Modified DTD, the final XSL stylesheet, the response
+        document to the DOM/Ajax part, comments on the XSL stylesheet, as well
+        as the responses to the second part. Number the answers and copy their
+        statements. <span class="instruction">To "color" your pieces of code
+          you can use the site: <a href="http://www.tohtml.com/" target="_blank">http://www.tohtml.com/</a></span>
+        or style libraries in javascript. <span class="Style2"><br />
+        </span></p>
+      <p><span class="Style2">Start the report text/html file with your Binôme
+          number and your student names and numbers!</span></p>
+      <p><span class="Style2">Read the statement and do the exercises in the
+          order of the statement!<br />
+        </span> </p>
+      <p>During the correction, we will copy/paste fragments of your report to
+        check XPath expressions, open the XML file for the XSL part in the
+        browser (Firefox) and look at the result, as well as the html page for
+        the Ajax part .</p>
+      <p>This archive must be uploaded to Moodle <strong>before 2:00 p.m. the
+          day after the second session</strong>.</p>
+      <h2>Preperation</h2>
+      <ul>
+        <li style="color: rgb(0, 0, 0);">Create a directory called TPDW on <code>C:\temp</code>,
+          or a directory with no spaces and special characters in it.</li>
+        <li style="color: rgb(0, 0, 0);">Get the compressed <a href="LabStatementTPDW2024.zip"
+            title="LabStatement"><strong>LabStatementTPDW2024.zip</strong></a>
+          folder and copy its contents to the directory created before.</li>
+        <li class="Style1">In this folder you will find:
+          <ul>
+            <li>this statement ( <code>sujetTP.html</code>). </li>
+            <li>an HTML file ( <code>result.html</code>) which gives the result
+              to be obtained for the XSL part,</li>
+            <li>a directory containing the images</li>
+            <li>a directory "highlight"for the style of this statement. </li>
+            <li>a directory <code>fichiers</code> containing:
+              <ul>
+                <li>an XML instance (<code>petit_prince_3IF.xml</code>) that
+                  contains a fragment from Saint Exupéry's Petit Prince in
+                  French and Hungarian,</li>
+                <li>a DTD for the XML document  (<code>petit_prince_3IF.dtd</code>),</li>
+                <li><br />
+                </li>
+                <li>an XML instance ( <code>countriesTP.xml</code>) that
+                  contains information about the countries of the world for the
+                  second part (DOM and Ajax) of this lab,</li>
+                <li>a DTD for the XML document ( <code>countries.dtd</code>),</li>
+                <li>a directory <code>ajax</code> containing:
+                  <ul>
+                    <li>an html file <code>PartieAjaxDOM.html</code>, base for
+                      the ajax part</li>
+                    <li>xml, javascript, svg and xsl files for the ajax part</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="Style1">Take the time to carefully observe and understand the
+          XML and DTD files that you are going to handle ( <span class="instruction">use
+            for example Notepad++ or another code editor (not Word, nor Google
+            docs, nor LibreOffice!!) to open them</span> ).</li>
+      </ul>
+      <br />
+      <h2><font style="vertical-align: inherit;" class="">First part: XML, DTD,
+          XPath, XSLT</font></h2>
+       <br />
+      <font style="vertical-align: inherit;" class="">
+        <h3>Step 1: Exploring the instance [XPath]</h3>
+        <p><font style="vertical-align: inherit;" class="">In this step, you
+            will build absolute or relative XPath expressions to select the
+            indicted nodes or values. These expressions can be used again (by
+            adapting them) in the next step.</font></p>
+        <font style="vertical-align: inherit;" class="">
+          <p>In the report, recall the questions with their number, give the
+            corresponding XPath expression as well as a few lines of the result
+            of the evaluation of the XPath expression.</p>
+          <p class="instruction">To test XPath expressions, you can use Firefox
+            or EditX. EditX can be downloaded from Moodle, unzip it to C:\Temp
+            (important!). Launch it by executing <code>editix.bat</code> (or <code>editix.sh</code>
+            under linux) in the subdirectory <code>bin</code>. In EditX: Open
+            the XML file, then the XPath dialog box ( <code>XML/XPath view</code>).
+            Enter your XPath expression.</p>
+          <ol>
+            <li>Give the XPath expressions to select the following:
+              <ol>
+                <li>The style managers</li>
+                <li>Dialogue paragraphs</li>
+                <li>Phrases in French</li>
+                <li>The second phrase of each paragraph</li>
+                <li>The tenth <font style="vertical-align: inherit;" class=""><font
+                      style="vertical-align: inherit;" class="">phrase </font></font>of
+                  the text (remember to use parentheses)</li>
+                <li>The paragraph count</li>
+                <li><font style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+                      class="">Elements with at least one attribute</font></font></li>
+                <li>Phrases containing the word "mouton" (use the contains()
+                  function)</li>
+                <li>List the modalities of the phrases in the text (without
+                  duplicates)</li>
+                <li>There is an image element among the paragraphs. Write the
+                  XPath expression the gives the position of the paragraph
+                  preceded by an  image element among the paragraphs</li>
+              </ol>
+            </li>
+          </ol>
+          <h3><a id="etape2">Step 3</a> : Formatting the XML file [XSLT]<br />
+          </h3>
+          <p>You are now going to produce an XSL style sheet which allows the
+            transformation of the instance of the XML document into an HTML
+            document. This sheet will include HTML formatting elements and XSLT
+            commands to manage the content. The generated HTML file should be as
+            similar as possible to <a href="result.html" target="_blank" onclick="window.open(this.href); return false;">this
+              result</a> . Throughout this part, do not hesitate to draw
+            inspiration from the source code of the <a href="result.html" target="_blank">result</a>
+            page .</p>
+          <p>Build your style sheet in the order of the questions in the
+            statement!</p>
+          <p class="instruction">Test it systematically by opening the xml file
+            with Firefox to see the result! To allow Firefox to look for the
+            style sheet on the local disk, modify a browser parameter: go to the
+            page: <code>about:config</code>, look for the option: <code>security.fileuri.strict_origin_policy</code>,
+            set its value to false.</p>
+          <p class="instruction">Option 1:Use a code editor and Firefox, create
+            a <font style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+                class="">file named  <code>petit_prince_3IF.xsl</code> in your
+                lab directory.<br />
+              </font></font></p>
+          <p class="instruction">Option 2: Use the EditiX function <code>File/New/XSL
+              Transformations 1.0 for HTML Output </code>to create the style
+            sheet file, then save it under the name of <code>petit_prince_3IF.xsl</code>
+            in your project directory. You can use another word processor to
+            modify your style sheet.</p>
+          <p class="instruction">Option 3: Use <a href="https://www.oxygenxml.com/xml_editor/download_oxygenxml_editor.html"
+              target="_blank">Oxygen XML Editor</a> (commercial tool with 30
+            days trial)</p>
+          <p>Here are the expected characteristics of this style sheet (copy the
+            header and the first templates then get inspiration from them to
+            create the following ones):</p>
+          <p>Test your style sheet in a browser, add the following line in your
+            XML document (third or fourth line, eventually uncomment the
+            existing one) a call to the style sheet you are going to create</p>
+          <pre><code class="xml"> &lt;?xml-stylesheet type="text/xsl" href="petit_prince_3IF.xsl"?&gt; </code>
+</pre> During the corrections, we will open the </font></font><code>petit_prince_3IF</code><font
+        style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+          class=""><code>.xml </code>file from your zip archive with Firefox
+          and we will look at the result provided by the browser in addition to
+          the code source of your style sheet.
+          <h4>3.1 File header</h4>
+          <p>The style sheet header looks like :</p>
+          <pre><code class="xml">&lt;?xml version = "1.0" encoding = "UTF-8"?&gt;<br /><br />&lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</code></pre> 
+   <p class="instruction">If you want the result to be displayed in HTML, add the line:</p> 
+   <pre><code class="xml"> &lt;xsl:output method="html" /&gt; </code></pre> 
+   <p class="instruction"><font style="vertical-align: inherit;" class="">as the first child element of the element <code>&lt;xsl:stylesheet&gt;</code>. To display the result in a browser in XML form, replace 'html' by 'xml' (especially for the first questions).</font></p><font
+style="vertical-align: inherit;" class=""> 
+   <h4>3.2 HTML context of the document</h4> 
+   <p>We start by defining a template corresponding to the root of the document (defined by the XPath path: " / "). It begins with the HTML information that will be reported in the result document. We thus find the structure of a classic HTML document. The following templates will be applied to the location of the command <code>&lt;xsl:apply-templates/&gt; </code>to insert in the right place. Replace the character string: <span
+style="font-family: monospace;">Name </span><code>Binome 1, Name Binome 2 (B3XXX)</code>with your names and your binome number.</p> 
+   <pre><code class="xml">&lt;xsl:template match="/"&gt; <br />&lt;html&gt; <br /> &lt;head&gt; <br /> 	&lt;title&gt; <br /> 		Petit Prince fragment <br /> 	&lt;/title&gt; <br /> &lt;/head&gt; <br /> <br /> &lt;body style="background-color:white;"&gt; <br /> 	&lt;h1 style="text-align:center; color:blue;"&gt;LePetitPrince&lt;/h1&gt; <br /> 	&lt;h2 style="text-align:center; font-style: italic"&gt;Antoine de Saint-Exupéry&lt;/h2&gt;<br /> &lt;/body&gt; <br />&lt;/html&gt; <br />&lt;/xsl:template&gt; </code></pre> 
+  
+                    ```html
+<h4>3.4 Display of the book's author <code>&lt;xsl:template
+          match="author"&gt;</code></h4>
+<p>In the same way, you will describe the layout of the "author" element.</p>
+<ul>
+  <li>with size <code>&lt;h2&gt;</code></li>
+  <li>centered and in italics <code>style="text-align:center; font-style:
+            italic;"</code></li>
+  <li>with line breaks before and after <code>&lt;br/&gt;</code></li>
+</ul>
+<h4>3.5 Display of styling information <code>&lt;xsl:template
+          match="styling_information"&gt;</code></h4>
+<ul>
+  <li> between <code>&lt;blockquote&gt;</code> tags</li>
+  <li>font color = darkgreen</li>
+  <li>line break between the data
+    <ul>
+      <li>Purpose of the TP on "date": "styling_description"</li>
+      <li>Authors: "1st author" and "2nd author", using the <code>style_manager </code> elements</li>
+      <li>style manager's email: "email" </li>
+    </ul>
+  </li>
+  <li>display of a horizontal line: <samp><code>&lt;hr/&gt;</code></samp></li>
+</ul>
+<h4>3.6 Display of images</h4>
+<p>We will now allow images to be displayed:</p>
+<p class="xml">&lt;xsl:template match="image"&gt;<br />
+  &lt;div align="center"&gt;<br />
+  &lt;img&gt;<br />
+  &lt;xsl:attribute name="src"&gt;<br />
+  &lt;xsl:value-of select="@path"/&gt;<br />
+  &lt;/xsl:attribute&gt;<br />
+  &lt;/img&gt;<br />
+  &lt;/div&gt;<br />
+  &lt;/xsl:template&gt; </p>
+```
+ 
+ <h3>Step 4 <a name="step3"></a>: Build the rest of the result html page</h3>
+<p>Now open your XML document in Firefox. What do you observe? You will now complete the style sheet to achieve <a
+href="petit_prince_3IF.example.html" target="_top" class="Style1">this result</a>.</p>
+
+<h4>4.1 Skip a line between paragraphs</h4>
+<ul>
+  <li>To do this, process the "paragraph" elements between HTML paragraph tags <code>&lt;p&gt;&lt;/p&gt;</code>.</li>
+</ul>
+
+<h4>4.2 Formatting text based on language</h4>
+<ul>
+  <li>Translate Hungarian text to brown (<code>brown</code>) and put the font style in italic.</li>
+</ul>
+
+<h4>4.3 Highlighting dialogue sentences from the narrator and the Petit Prince</h4>
+<ul>
+  <li>Place them in a table, specifying in the first cell who is speaking and inserting the image "images/LePetitPrince.png" for the Little Prince and "images/Narrateur.png" for the narrator. You can use the syntax: <code>&lt;img src="images/{@speaker}.png"/&gt;</code>.</li>
+  <li>Help on HTML table syntax:</li>
+</ul>
+
+<div align="left">
+  <table align="center">
+    <tbody>
+      <tr>
+        <td>&lt;table border="3" width="600" align="center"&gt;</td>
+      </tr>
+      <tr>
+        <td>
+          <table width="600" border="3">
+            <tbody>
+              <tr>
+                <td>
+                  <table width="600" border="0">
+                    <tbody>
+                      <tr>
+                        <td bgcolor="#99FF66">&lt;tr&gt;</td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#99FF66">
+                          <table align="center" width="90%" border="1">
+                            <tbody>
+                              <tr bgcolor="#ffff99">
+                                <td>&lt;td&gt;&lt;/td&gt;</td>
+                                <td>&lt;td&gt;&lt;/td&gt;</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#99FF66">&lt;/tr&gt;</td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#99FF66">&lt;tr&gt;</td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#99FF66">
+                          <table align="center" width="90%" border="1">
+                            <tbody>
+                              <tr bgcolor="#ffff99">
+                                <td>&lt;td&gt;&lt;/td&gt;</td>
+                                <td>&lt;td&gt;&lt;/td&gt;</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#99FF66">&lt;/tr&gt;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>&lt;/table&gt;</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ul>
+  <li>Tip: Remember to use a loop and restart the language processing.</li>
+</ul>
+
+<h4>4.4 Select sentences containing "mouton" in French and Hungarian. Make them bold and large. Add the image: "images/moutonDessin.png" at the end of each sentence</h4>
+<ul>
+  <li>Hint: Use the choice instruction and the xslt <code>contains()</code> function.</li>
+</ul><font style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+class=""><font style="vertical-align: inherit;" class=""><h2><a id="partie2">Second part: DOM and ajax</a></h2> 
+   <p>This part aims to introduce you to the <a href="http://fr.wikipedia.org/wiki/Asynchronous_JavaScript_and_XML"
+onclick="window.open(this.href); return false;">AJAX technology</a> . On an HTML page, buttons allow you to trigger Javascript functions: these will dynamically manipulate XML documents, in particular the HTML page itself, but also load an XML document, extract information from it, apply an XSL style sheet, <em>etc.</em>  The javascript functions are included in the source code of the HTML page or can be in a separate file.</p> 
+   <p>The first button below calls the Javascript function <code>setNom</code> modifying the content of a tag <code>&lt;span id="id_nom_a_remplacer"&gt; </code>based on  the content of the text field located next to it, having the identifier <code>myText1</code>.</p> 
+   </font></font></font></font></font></font><font style="vertical-align: inherit;"
+class=""><font style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+class=""><font style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+class=""><font style="vertical-align: inherit;" class=""><p>You will work on an XML file containing information about the countries of the world.</p><p>A small explanation of the elements (see the <a
+href="https://github.com/mledoze/countries" target="_blank">data source</a> ):
+      <span class="explication">
+        </span></p><ul><li><code>country_name</code>
+            <ul><li><code>common_name</code>- common name in english</li><li><code>offic_name</code>- official name in english</li><li><code>native_name</code>- list of all native names
+                <ul><li>key: three-letter ISO 639-3 language code</li><li>value: name object
+                    <ul><li>key: official - official name translation</li><li>key: common - common name translation</li></ul>
+                  </li></ul>
+              </li></ul>
+          </li><li>country code top-level domain ( <code>tld</code>)</li><li>code ISO 3166-1 alpha-2 ( <code>cca2</code>)</li><li>ISO 3166-1 numeric code ( <code>ccn3</code>)</li><li>ISO 3166-1 alpha-3 code ( <code>cca3</code>)</li><li>code International Olympic Committee ( <code>cioc</code>)</li><li>ISO 4217 currency code(s) ( <code>currency</code>)</li><li>calling code(s) ( <code>callingCode</code>)</li><li>capital city ( <code>capital</code>)</li><li>alternative spellings ( <code>altSpellings</code>)</li><li>infoContinent</li><li>subregion</li><li>list of official languages ​​( <code>languages</code>)
+            <ul><li>key: three-letter ISO 639-3 language code</li><li>value: name of the language in english</li></ul>
+          </li><li>latitude and longitude ( <code>latlng</code>)</li><li>name of residents ( <code>demonym</code>)</li><li>locked status ( <code>landlocked</code>)</li><li>land borders ( <code>borders</code>)</li><li>attribute land area in km² ( <code>area</code>)</li></ul><font
+style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+class=""><font style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+class=""><font style="vertical-align: inherit;" class=""><p class="instruction"><strong>Consult the source code of the <a
+href="fichiers/ajax/PartieAjaxDOM.html" target="_blank">example page</a> to understand how the JavaScript code works and the organization of the HTML elements concerned. </strong>Test and understand the operation of the 3 buttons.</p></font></font></font></font></font><span
+class="explication"></span><font style="vertical-align: inherit;" class=""><font
+style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+class=""><font style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+class=""><p class="instruction">Use the Firefox developer tools (F12 button) 
+to inspect the elements, see the error messages in the Console tab , 
+execute the javascript code step by step in the Debugger tab.</p></font></font></font></font></font><font
+style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+class=""><font style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+class=""><font style="vertical-align: inherit;" class=""> 
+   <p class="instruction">Use a code editor, for example Notepad++, Eclipse to modify the source code of the page.</p> 
+   <p class="instruction"><strong>You will find additional information on the w3schools.com site on <a
+href="http://www.w3schools.com/jsref/dom_obj_document.asp">html-specific DOM methods.</a></strong> </p>
+   <p class="instruction"><strong>Take a look at this  <a href="https://firefox-source-docs.mozilla.org/devtools-user/debugger/"
+target="_blank">video</a> that shows how to run step by step and debug javascript code inside your Firefox browser. <br /></strong></p></font></font></font></font></font><p></p><p>Create a web page (named <code>PartieAjaxDOM.html </code>by taking inspiration from <a
+href="fichiers%5Cajax%5CPartieAjaxDOM.html" target="_blank">this file</a> (it is present in the archive with the statement as well. you can simply modify and complete it)) containing the buttons and input fields to perform the following actions:</p> 
+   <ol> 
+    <li>Button 1: Changes the page background color to blue and the button text color to white.</li> 
+    <li>Button 2: resets the background color to white</li> 
+    <li>Button 3 / Input field: displays the official name and the capital of the country whose code is selected in the input field. Load the XML file <code>countriesTP.xml </code>in ajax. Write a style sheet: <code>cherchePays.xsl</code>, which takes a parameter <code>code</code>, load it in ajax as well. This style sheet applied to the xml file: <code>countriesTP.xml </code>returns the searched elements corresponding to the country. Use the javascript function <code>XSLTProcessor.setParameter</code> to pass the parameter to the stylesheet. <br /> <span
+class="instruction">It is important to fully understand how the example works (functions attached to Buttons 2 and 3) to answer this question!</span></li> 
+    <li>Button 4: load and display the svg drawing contained in the file: <code>exemple.svg.</code> <br /> 
+    <span class="instruction">Do not load the svg as an image! It's an XML file, load it with the <code>chargerHttpXML</code> example function, serialize it into a String and replace the attribute <code>innerHtml </code>of the parent element with it.</span></li> 
+    <li>Button 5: makes the elements of the svg file "clickable" and displays the value of their attribute <code>title</code> when they are clicked. <br /> 
+    <span class="instruction">Use the <code>addEventListener </code>element method <code>circle</code>, <code>rectangle </code>and <code>path</code>svg</span></li> 
+    <li>Button 6: load and display the world map in svg contained in the file<code> worldHigh.svg</code></li> 
+    <li>Button 7: makes countries clickable and displays their attribute <code>countryname </code>on click</li> 
+    <li><font style="vertical-align: inherit;" class="">Button 8: capture the passing ( <code>mouseover</code><font
+style="vertical-align: inherit;" class="">) and exiting ( <code>mouseleave</code><font
+style="vertical-align: inherit;" class="">) event of the mouse over the countries on the map. By the way: change their color and display their: name, capital, languages ​​spoken and flag (The images are accessible from the address: http://www.geonames.org/flags/x/ <code>code_cca2</code>.gif where <code>code_cca2 </code>is to be replaced by the cca2 code of the country in lowercase letters (remember to convert them using an XPath function). The tags to generate are in the format:<pre><code
+class="xml">&lt;img src="http://www.geonames.org/flags/x/fr.gif" alt="" height="40" width="60"&gt; </code>
+</pre>) </font></font></font></li><font style="vertical-align: inherit;" class=""><font
+style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+class=""> 
+    <li>Button 9: complete the input field of button 3 with an autocomplete function  (use a <code>datalist</code>)</li> 
+    <li>Button 10: complete the information displayed in button 8 with the name of the country's currency (use the site <a
+href="https://restcountries.com/v2/alpha/fra" target="_blank">https://restcountries.com/v2/alpha/{code}</a> <a
+href="https://restcountries.eu/" target="_blank"></a> )</li> 
+    <li>Color in green on the map the countries where the languages ​​of the country selected in the input field of button 3 are also spoken.</li> 
+    <li>Button 12: Show a random country name and ask the user to click on the corresponding country on the map. Show : True or False according to the click. </li>
+    <li>Propose an interesting visualization involving the XML file <code>countriesTP.xml </code>, the svg map <code>worldHigh.svg</code> as well as enriched information from web services (for example: geonames, dbpedia, ....)</li> 
+   </font></font></font></ol><font style="vertical-align: inherit;" class=""><font
+style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+class=""> 
+   <p> </p> 
+   <p style="color: red; font-weight: bold;"> </p> 
+  
+  
+  </font></font></font></font></font></font></font></font></font></div><font style="vertical-align: inherit;"
+class=""><font style="vertical-align: inherit;" class=""><font style="vertical-align: inherit;"
+class=""> 
+
+
+
+
+</font></font></font></body></html>

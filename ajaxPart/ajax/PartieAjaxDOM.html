@@ -1,0 +1,162 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+    <title>AJAX Part B3423</title>
+    <meta name="author" content="Simon Perret" />
+    <script type="text/javascript" src="partieJavascript.js"></script>
+  </head>
+  <body>
+    <h1>TP 3IF Ajax</h1>
+    <p></p>
+    <h1>Saad ELGHISSASSI & Simon PERRET</h1>
+    <h1>B3423</h1>
+    <p>
+      This button change the color of the background to blue <br />
+      <input
+        name="button1"
+        id="myButton1"
+        onclick="changeColors();"
+        value="1. Change to Blue"
+        type="button"
+      />
+      <br />
+      <br />
+      By clicking this button you can resets the background color to white.<br />
+      <input
+        name="button2"
+        id="myButton2"
+        onclick="resetBackgroundColor();"
+        value="2. Reset the color to white"
+        type="button"
+      />
+      <br />
+      <br />
+
+      This button displays the official name and the capital of the country
+      whose code is selected in the input field. <br />
+      <datalist id="countriesList"></datalist>
+      <input
+        name="button3"
+        id="myButton3"
+        onclick="displayCountryInfo('countriesTP.xml','cherchePays.xsl');"
+        value="3. Display Country Info"
+        type="button" />
+        <input type="text" id="inputField" list="countriesList" />
+        <datalist id="countriesList"></datalist>
+        <div id="result"></div>
+      
+      Load and display the svg drawing contained in the file: <code>exemple.svg</code>. <br />
+      <input
+        name="button4"
+        id="myButton4"
+        onclick="displaySVG('exemple.svg','svgContainer1');"
+        value="4. Display the SVG file"
+        type="button"
+      />
+      <div id="svgContainer1"></div>
+      <br>
+
+      Makes the elements of the svg file "clickable" and displays the value of their attribute <code>title</code> when they are clicked. <br />
+      <input
+        name="button5"
+        id="myButton5"
+        onclick="makeSvgClickable('svgContainer1','title','path, circle, rect');"
+        value="5. Make the SVG clickable"
+        type="button"
+      />
+      <br>
+      <br>
+
+      Load and display the world map in svg contained in the file <code>worldHigh.svg</code>. <br />
+      <input
+        name="button6"
+        id="myButton6"
+        onclick="displaySVG('worldHigh.svg','svgContainer2',);"
+        value="6. Display the world map"
+        type="button"
+      />
+      <div id="svgContainer2"></div>
+      <div id="question13"></div>
+      <div id="showinfo"></div>
+      <div id="countryQuizQuestion"></div>
+      <div id="quizResult"></div>
+      
+      <br>
+
+      Makes countries clickable and displays their attribute <code>countryname</code> on click.<br />
+      <input
+        name="button7"
+        id="myButton7"
+        onclick="makeSvgClickable('svgContainer2','countryname','path');"
+        value="7. Make the world map clickable"
+        type="button"
+      />
+      <br>
+      <br>
+
+      Capture the passing (<code>mouseover</code>) and exiting (<code>mouseleave</code>) event of the mouse over the countries on the map. By the way: change their color and display their infos.<br />
+      <input
+        name="button8"
+        id="myButton8"
+        onclick="addMouseEvents('svgContainer2', 'path', 'showinfo');"
+        value="8. Show info about country"
+        type="button"
+      />
+      <br>
+      <br>
+
+      Autocomplete the input field of button 3 with an autocomplete function.<br />
+      <input
+        name="button9"
+        id="myButton9"
+        onclick="activateAutocomplete();"
+        value="9. Autocomplete the input field"
+        type="button"
+      />
+      <br>
+      <br>
+
+      Complete the information displayed in button 8 with the name of the country's currency.<br />
+      <input
+        name="button10"
+        id="myButton10"
+        onclick="addCurrencyInfo('svgContainer2', 'path');"
+        value="10. Display the country's currency"
+        type="button"
+      />
+      <br>
+      <br>
+
+      Color in green on the map the countries where the languages of the country selected in the input field of button 3 are also spoken<br />
+      <input
+        name="button11"
+        id="myButton11"
+        onclick="colorLanguagesGreen('inputField', 'svgContainer2', 'countriesTP.xml');"
+        value="11. Color in green"
+        type="button"
+      />
+      <br>
+      <br>
+
+      Show a random country name and ask the user to click on the corresponding country on the map.<br />
+      <input
+        name="button12"
+        id="myButton12"
+        onclick="showRandomCountryName('showinfo');"
+        value="12. Country name quizz"
+        type="button"
+      />
+      <br>
+      <br>
+
+      An interesting visualization involving the XML file <code>countriesTP.xml</code> , the svg map <code>worldHigh.svg</code> as well as enriched information from web services<br />
+      <input
+        name="button13"
+        id="myButton13"
+        onclick="interestingVisualization('showinfo', 'countryQuizQuestion', 'quizResult');"
+        value="13. Interesting visualization"
+        type="button"
+      />
+    </p>
+  </body>
+</html>

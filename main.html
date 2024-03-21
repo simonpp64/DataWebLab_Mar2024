@@ -1,0 +1,121 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+    <title>TP 3IF Partie 1</title>
+    <meta name="author" content="Simon Perret" />
+    <script type="text/javascript" src="partieJavascript.js"></script>
+  </head>
+  <body>
+    <h1>TP 3IF Partie 1</h1>
+    <p></p>
+    <h1>Saad ELGHISSASSI & Simon PERRET - B3423</h1>
+    <h2>Responses of the first part</h2>
+
+    <h4>1.The style managers</h4>
+    <p>
+      XPath expressions :
+      <code
+        >$x('/the_text/the_header/styling_information/styled_by/style_manager')</code
+      >
+    </p>
+    <p>Console : <code>Array [ style_manager, style_manager ]</code></p>
+    <br />
+
+    <h4>2. Dialogue paragraphs</h4>
+    <p>XPath expressions : <code>$x("//paragraph[@type='dialogue']")</code></p>
+    <p>
+      Console :
+      <code
+        >Array(11) [ paragraph, paragraph, paragraph, paragraph, paragraph,
+        paragraph, paragraph, paragraph, paragraph, paragraph, ... ]</code
+      >
+    </p>
+    <br />
+
+    <h4>3. Phrases in French</h4>
+    <p>XPath expressions : <code>$x("//phrase[@language='francais']")</code></p>
+    <p>
+      Console :
+      <code
+        >Array(65) [ phrase, phrase, phrase, phrase, phrase, phrase, phrase,
+        phrase, phrase, phrase, ... ]</code
+      >
+    </p>
+    <br />
+
+    <h4>4. The second phrase of each paragraph</h4>
+    <p>XPath expressions : <code>$x("//paragraph/phrase[2]") </code></p>
+    <p>
+      Console :
+      <code
+        >Array(25) [ phrase, phrase, phrase, phrase, phrase, phrase, phrase,
+        phrase, phrase, phrase, ... ]</code
+      >
+    </p>
+    <br />
+
+    <h4>5. The tenth phrase of the text</h4>
+    <p>XPath expressions : <code>$x("(//phrase)[10]") </code></p>
+    <p>Console : <code>Array [ phrase ] </code></p>
+    <br />
+
+    <h4>6. The paragraph count</h4>
+    <p>XPath expressions : <code>$x("count(//paragraph)") </code></p>
+    <p>Console : <code>25</code></p>
+    <br />
+
+    <h4>7. Elements with at least one attribute</h4>
+    <p>XPath expressions : <code>$x("//*[count(@*) > 0]")</code></p>
+    <p>
+      Console :
+      <code
+        >Array(154) [ cover, link, link, paragraph, phrase, phrase, phrase,
+        phrase, phrase, phrase, ... ]</code
+      >
+    </p>
+    <br />
+
+    <h4>8. Phrases containing the word "mouton"</h4>
+    <p>
+      XPath expressions :
+      <code>$x("//phrase[contains(text(), 'mouton')]")</code>
+    </p>
+    <p>
+      Console :
+      <code
+        >Array(12) [ phrase, phrase, phrase, phrase, phrase, phrase, phrase,
+        phrase, phrase, phrase, ... ]</code
+      >
+    </p>
+    <br />
+
+    <h4>9. List the modalities of the phrases in the text</h4>
+    <p>
+      XPath expressions :
+      <code>$x("//@modality[not(.=preceding::*/@modality)]")</code>
+    </p>
+    <p>
+      Console :
+      <code
+        >Array(4) [ modality="declarative", modality="exclamative",
+        modality="interrogative", modality="imperative" ]</code
+      >
+    </p>
+    <br />
+
+    <h4>
+      10. There is an image element among the paragraphs. Write the XPath
+      expression the gives the position of the paragraph preceded by an image
+      element among the paragraphs
+    </h4>
+    <p>
+      XPath expressions :
+      <code
+        >$x('count(//paragraph[preceding-sibling::image][1]/preceding-sibling::paragraph)
+        + 1')</code
+      >
+    </p>
+    <p>Console : <code>21</code></p>
+    <br />
+  </body>
+</html>
