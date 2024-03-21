@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT the_text (the_header, body)>
+<!ELEMENT the_header (title, author, cover, styling_information, link+)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT author (#PCDATA)>
+<!ELEMENT link (#PCDATA)>
+<!ATTLIST link
+          language CDATA #REQUIRED>
+<!ELEMENT cover EMPTY>
+<!ATTLIST cover
+          path CDATA #REQUIRED>
+<!ELEMENT styling_information (styling_description, styled_by, email, date)>
+<!ELEMENT styling_description (#PCDATA)>
+<!ELEMENT styled_by (style_manager+, NoBinome)>
+<!ELEMENT style_manager (#PCDATA)>
+<!ELEMENT NoBinome (#PCDATA)>
+<!ELEMENT email (#PCDATA)>
+<!ELEMENT date (#PCDATA)>
+<!ELEMENT body (paragraph+, image, paragraph+)>
+<!ELEMENT paragraph (phrase+)>
+<!ATTLIST paragraph
+          type CDATA #REQUIRED>
+<!ELEMENT phrase (#PCDATA)>
+<!ATTLIST phrase
+          speaker CDATA #REQUIRED
+          modality CDATA #REQUIRED
+          language CDATA #REQUIRED>
+<!ELEMENT image EMPTY>
+<!ATTLIST image
+          path CDATA #REQUIRED>
+
+
+

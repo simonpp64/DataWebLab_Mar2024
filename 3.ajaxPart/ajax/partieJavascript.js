@@ -122,24 +122,19 @@ function makeSvgClickable(containerId, attribute, attributeType) {
 function addMouseEvents(containerId, attributeType, div8) {
   var svgContainer = document.getElementById(containerId);
   var svgElements = svgContainer.querySelectorAll(attributeType);
-
   var xxmhttp = new XMLHttpRequest();
   xxmhttp.open("GET", "countriesTP.xml", false);
   xxmhttp.send("");
   var xml = xxmhttp.responseXML;
-
   // Crée un seul élément div pour afficher les informations
   var infoDiv = document.getElementById(div8);
   svgContainer.appendChild(infoDiv);
-
   svgElements.forEach(function (element) {
     element.addEventListener("mouseover", function () {
       // Changer la couleur de remplissage de l'élément SVG
       this.style.fill = "red";
-
       // Récupère l'élément SVG
       var id = this.id;
-
       // Cherche le pays qui a cet identifiant comme code cca2 dans countriesTP.xml
       var countries = xml.querySelectorAll("country");
       var country;
@@ -150,7 +145,6 @@ function addMouseEvents(containerId, attributeType, div8) {
           break;
         }
       }
-
       if (country) {
         // Affiche common_name, capital et language de ce pays a partir de countriesTP.xml
         var commonName = country.querySelector("common_name").textContent;
@@ -158,11 +152,9 @@ function addMouseEvents(containerId, attributeType, div8) {
         var languages = Array.from(country.querySelectorAll("languages > *"))
           .map((el) => el.textContent)
           .join(", ");
-
         // Génère l'URL du drapeau
         var flagUrl =
           "http://www.geonames.org/flags/x/" + id.toLowerCase() + ".gif";
-
         // Mets à jour le contenu de infoDiv
         infoDiv.innerHTML =
           '<img src="' +
@@ -176,13 +168,10 @@ function addMouseEvents(containerId, attributeType, div8) {
           "</p>";
       }
     });
-
     element.addEventListener("mouseleave", function () {
       //Code exécuté lorsque la souris quitte un pays
-
       //Change la couleur de remplissage de l'élément SVG pour revenir à sa couleur d'origine
       this.style.fill = "";
-
       //Efface le contenu de infoDiv
       infoDiv.innerHTML = "";
     });
@@ -217,7 +206,6 @@ function updateCountryDatalist(xmlDoc) {
   var datalist = document.getElementById("countriesList");
   // Efface les options précédentes de la datalist
   datalist.innerHTML = "";
-
   //Boucle à travers chaque élément "country" trouvé
   for (var i = 0; i < countries.length; i++) {
     // Crée un nouvel élément <option>
@@ -240,18 +228,21 @@ function addCurrencyInfo(containerId, attributeType) {
   var svgContainer = document.getElementById(containerId);
   // Sélectionne tous les éléments dans ce conteneur qui correspondent au critère spécifié (dans le cas du button8, tous les 'path' pour les pays)
   var svgElements = svgContainer.querySelectorAll(attributeType);
-  // Crée un nouvel élément <div> qui servira à afficher les informations sur la devise
-  var infoDiv = document.createElement("div");
-  // Ajoute ce <div> au conteneur SVG pour qu'il soit prêt à afficher les données
-  svgContainer.appendChild(infoDiv);
-
+  // Vérifie si le div d'informations existe déjà
+  var infoDiv = svgContainer.querySelector(".currency-info");
+  // Si le div d'informations n'existe pas, crée un nouvel élément <div> qui servira à afficher les informations sur la devise
+  if (!infoDiv) {
+    infoDiv = document.createElement("div");
+    infoDiv.classList.add("currency-info");
+    // Ajoute ce <div> au conteneur SVG pour qu'il soit prêt à afficher les données
+    svgContainer.appendChild(infoDiv);
+  }
   // Itère sur chaque élément SVG correspondant à un pays
   svgElements.forEach(function (element) {
     // Ajoute un écouteur d'événements pour réagir au passage de la souris sur l'élément
     element.addEventListener("mouseover", function () {
       // Récupère l'ID de l'élément, correspondant au code du pays, et l'adapte au format attendu par l'API
       var id = this.id;
-
       //Utilise la fonction chargerHttpJSON pour récupérer les données de devise à partir de l'URL formée avec le code du pays.
       var currencyData = chargerHttpJSON(
         `https://restcountries.com/v2/alpha/${id}`
@@ -264,7 +255,6 @@ function addCurrencyInfo(containerId, attributeType) {
       infoDiv.innerHTML = `<div style='color: Goldenrod; font-weight: bold;'>
       Currency : ${currency}</div>`;
     });
-
     // Ajoute également un écouteur d'événements pour effacer les informations lorsque la souris quitte l'élément
     element.addEventListener("mouseleave", function () {
       this.style.fill = ""; // Réinitialise l'apparence de l'élément
@@ -282,19 +272,16 @@ function colorLanguagesGreen(inputField, svgContainerId, xmlDocumentUrl) {
   countryElements.forEach(function (element) {
     element.style.fill = ""; // Réinitialiser la couleur à la couleur d'origine (ou toute autre couleur par défaut)
   });
-
   var inputElement = document.getElementById(inputField); // L'élément input entré par l'utilisateur
   var countryCodeCca3 = inputElement.value; // Le code cca3 de l'élément entré par l'utilisateur
   //console.log("Code cca3 du pays sélectionné:", countryCodeCca3); //Commande de débogage
-
   var xmlData = chargerHttpXML(xmlDocumentUrl);
-
   // Recherche des langues parlées par le pays sélectionné en utilisant cca3
   var selectedCountryLangs = []; // Stocke les langues parlées par le pays sélectionné
   var selectedCountryCca2; // Stocke le code cca2 du pays sélectionné
   var countries = xmlData.getElementsByTagName("country"); // Recherche tous les éléments "country" dans le fichier XML
-
   for (var i = 0; i < countries.length; i++) {
+    // Itère sur chaque pays dans le fichier XML
     var cca3 = countries[i].querySelector("country_codes > cca3").textContent; // Extrait le code cca3 de chaque pays
     if (cca3 === countryCodeCca3) {
       // Vérifie si le code cca3 correspond au pays sélectionné
@@ -311,7 +298,6 @@ function colorLanguagesGreen(inputField, svgContainerId, xmlDocumentUrl) {
       break;
     }
   }
-
   countryElements.forEach(function (element) {
     // Parcours de tous les pays pour les comparer avec le pays sélectionné
     var countryCCA2 = element.id; // L'ID de l'élément SVG est le cca2 du pays
@@ -340,12 +326,10 @@ function colorLanguagesGreen(inputField, svgContainerId, xmlDocumentUrl) {
           break;
         }
       }
-
       var commonLanguages = selectedCountryLangs.some((lang) =>
         countryLangs.includes(lang)
       ); // Vérifie si le pays SVG partage des langues communes avec le pays sélectionné
       //console.log(`Langues communes trouvées avec ${countryCCA2}:`, commonLanguages); // Affiche si des langues communes ont été trouvées
-
       if (commonLanguages) {
         // Si des langues communes ont été trouvées, colorie le pays en vert
         //console.log(`${countryCCA2} sera coloré en vert.`); // Affiche le code cca2 du pays qui sera coloré en vert
@@ -373,7 +357,6 @@ function showRandomCountryName(div8) {
     countryName +
     "</span>"; // Affiche la question
   document.getElementById("quizResult").innerHTML = ""; // Réinitialise le résultat
-
   //Ajout d'un événement de clic pour vérifier la réponse de l'utilisateur
   paths.forEach((path) => {
     path.addEventListener("click", checkCountryAnswer);
@@ -383,7 +366,6 @@ function showRandomCountryName(div8) {
 //Fonction pour vérifier la réponse de l'utilisateur
 function checkCountryAnswer(event) {
   var clickedCountryCode = event.target.id; // Obtient le code du pays sur lequel l'utilisateur a cliqué
-
   if (clickedCountryCode === selectedCountryCode) {
     document.getElementById("quizResult").innerHTML =
       "<div style='color: green; font-size: 18px; font-family: Arial, sans-serif;font-weight: bold;'>Correct!</div>";
@@ -418,7 +400,8 @@ function interestingVisualization(div8, div121, div122) {
     type="button"
   />`;
 }
-// Fonction pour colorier les pays en fonction de leur population
+
+// Fonctions pour colorier les pays en fonction de leur population
 function getColorByPopulation(population) {
   if (population < 10000000) {
     return "lightgreen";
@@ -430,30 +413,23 @@ function getColorByPopulation(population) {
     return "darkblue";
   }
 }
-
 function colorCountriesByPopulation(containerId, attributeType) {
   var svgContainer = document.getElementById(containerId);
   var svgElements = svgContainer.querySelectorAll(attributeType);
-
   var xhttp = new XMLHttpRequest();
   xhttp.open("GET", "geonames.xml", false);
-  //xhttp.open("GET", "http://api.geonames.org/countryInfo?username=demo", false); ne fonctionne pas car tous les crédits ont été utilisés.
-
+  //xhttp.open("GET", "http://api.geonames.org/countryInfo?username=demo", false); ne fonctionne plus car tous les crédits de l'API ont été utilisés ...
   xhttp.send("");
   var xml = xhttp.responseXML;
-
   // Crée un élément div pour afficher les informations
   var infoDiv = document.createElement("div");
   svgContainer.appendChild(infoDiv);
-
   svgElements.forEach(function (element) {
     element.addEventListener("mouseover", function () {
       var id = this.id;
-
       var pop = parseInt(country.querySelector("population").textContent);
       infoDiv.innerHTML = "<p>Population : " + pop + "</p>";
     });
-
     element.addEventListener("mouseleave", function () {
       infoDiv.innerHTML = "";
     });
@@ -468,7 +444,6 @@ function colorCountriesByPopulation(containerId, attributeType) {
     Population < 100000000</div>
     <div style='color: darkblue; font-weight: bold;'>
     Population > 50000000</div>`;
-
     var id = element.id;
     var countries = xml.querySelectorAll("country");
     var country;
@@ -479,25 +454,24 @@ function colorCountriesByPopulation(containerId, attributeType) {
         break;
       }
     }
-
     if (country) {
       var pop = parseInt(country.querySelector("population").textContent); // Extrait la population du pays
       element.style.fill = getColorByPopulation(pop);
     }
   });
 }
-// Fonction pour colorier les pays parlant au moins une des langues du pays sélectionné dans le champ de texte du button3
+
+// Fonctions pour colorier les pays partageant le même fuseau horaire dans le champ de texte du button3
 function colorTimeZonesPink(inputField, svgContainerId, xmlDocumentUrl) {
+  // Fonction pour colorier les pays partageant le même fuseau horaire
   // Réinitialiser la couleur de tous les pays
   var svgContainer = document.getElementById(svgContainerId);
   var countryElements = svgContainer.querySelectorAll("[id]");
   countryElements.forEach(function (element) {
     element.style.fill = ""; // Réinitialiser la couleur à la couleur d'origine
   });
-
   var inputElement = document.getElementById(inputField); // L'élément input entré par l'utilisateur
   var countryCodeCca3 = inputElement.value.toUpperCase(); // Le code CCA3 entré par l'utilisateur
-
   var xmlData = chargerHttpXML(xmlDocumentUrl);
 
   // Trouver le code CCA2 correspondant au code CCA3 entré
@@ -513,7 +487,6 @@ function colorTimeZonesPink(inputField, svgContainerId, xmlDocumentUrl) {
     console.log("Code pays non trouvé.");
   }
 }
-
 // Fonction pour trouver le code CCA2 à partir du code CCA3
 function findCca2FromCca3(xmlData, countryCodeCca3) {
   var countries = xmlData.getElementsByTagName("country");
@@ -525,13 +498,11 @@ function findCca2FromCca3(xmlData, countryCodeCca3) {
   }
   return null; // Si le pays n'est pas trouvé
 }
-
 // Fonction pour traiter les données de fuseau horaire et colorier les pays correspondants
 function processTimeZones(timeZoneData, selectedCountryCca2, svgContainerId) {
   var zones = timeZoneData.getElementsByTagName("zone");
   var gmtOffsets = [];
   var countriesWithSameOffset = new Set();
-
   // Crée ou récupérer l'élément de message
   var messageElement = document.getElementById("timeZoneMessage");
   if (!messageElement) {
@@ -539,10 +510,8 @@ function processTimeZones(timeZoneData, selectedCountryCca2, svgContainerId) {
     messageElement.id = "timeZoneMessage";
     document.getElementById(svgContainerId).appendChild(messageElement);
   }
-
   // Réinitialise le message
   messageElement.innerHTML = "";
-
   // Recueille tous les GMT Offsets pour le pays sélectionné
   for (var i = 0; i < zones.length; i++) {
     if (
@@ -554,7 +523,6 @@ function processTimeZones(timeZoneData, selectedCountryCca2, svgContainerId) {
       );
     }
   }
-
   // Vérifie si le pays sélectionné a plusieurs fuseaux horaires
   if (gmtOffsets.length > 1) {
     // Afficher un message pour indiquer que plusieurs fuseaux horaires ont été trouvés
@@ -565,12 +533,10 @@ function processTimeZones(timeZoneData, selectedCountryCca2, svgContainerId) {
   } else {
     selectedZoneGmtOffset = gmtOffsets.length ? gmtOffsets[0] : null;
   }
-
   if (!selectedZoneGmtOffset) {
     console.log("GMT Offset not found for selected country.");
     return;
   }
-
   // Trouve tous les pays avec le même GMT Offset et les colorier
   for (var i = 0; i < zones.length; i++) {
     if (
@@ -582,7 +548,6 @@ function processTimeZones(timeZoneData, selectedCountryCca2, svgContainerId) {
       );
     }
   }
-
   // Colorie les pays correspondants en rose
   countriesWithSameOffset.forEach(function (countryCode) {
     var countryElement = document.getElementById(countryCode);

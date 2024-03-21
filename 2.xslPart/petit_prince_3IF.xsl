@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output method="html" />
 
     <!-- Template principal -->
@@ -11,10 +12,10 @@
                 </title>
             </head>
             <body style="background-color:white;">
-                <!-- Appliquer le template pour l'en-tête -->
+                <!-- Application du template pour l'en-tête -->
                 <xsl:apply-templates select="//the_header" />
                 <hr />
-                <!-- Appliquer le template pour le corps -->
+                <!-- Application du template pour le corps -->
                 <xsl:apply-templates select="//body" />
                 <hr />
             </body>
@@ -27,11 +28,11 @@
             <tbody>
                 <tr>
                     <td>
-                        <!-- Appliquer le template pour la couverture -->
+                        <!-- Application du template pour la couverture -->
                         <xsl:apply-templates select="//cover" />
                     </td>
                     <td>
-                        <!-- Appliquer les templates pour le titre, l'auteur et les informations de style -->
+                        <!-- Application des  templates pour le titre, l'auteur et les informations de style -->
                         <xsl:apply-templates select="//title" />
                         <xsl:apply-templates select="//author" />
                         <xsl:apply-templates select="//styling_information" />
@@ -44,11 +45,11 @@
     <!-- Template pour le corps -->
     <xsl:template match="body">
         <h3>Début du texte:</h3>
-        <!-- Appliquer le template pour les 20 premiers paragraphes -->
+        <!-- Application du template pour les 20 premiers paragraphes -->
         <xsl:apply-templates select="paragraph[position() &lt;= count(//paragraph[preceding-sibling::image][1]/preceding-sibling::paragraph)]" />
-        <!-- Appliquer le template pour l'image -->
+        <!-- Application du template pour l'image -->
         <xsl:apply-templates select="image" />
-        <!-- Appliquer le template pour les paragraphes du 21ème jusqu'à la fin -->
+        <!-- Application du template pour les paragraphes du 21ème jusqu'à la fin -->
         <xsl:apply-templates select="paragraph[position() > count(//paragraph[preceding-sibling::image][1]/preceding-sibling::paragraph)]" />
         <h3>Fin du texte.</h3>
     </xsl:template>
@@ -56,10 +57,10 @@
     <!-- Template pour un paragraphe -->
     <xsl:template match="paragraph">
         <p style="text-align:justify;">
-            <!-- Appliquer le template pour les phrases en français -->
+            <!-- Application du template pour les phrases en français -->
             <xsl:apply-templates select="phrase[@language='francais']" />
             <br />
-            <!-- Appliquer le template pour les phrases en hongrois -->
+            <!-- Application du template pour les phrases en hongrois -->
             <xsl:apply-templates select="phrase[@language='hongrois']" />
         </p>
     </xsl:template>
@@ -67,6 +68,7 @@
     <!-- Template pour une phrase en français -->
     <xsl:template match="phrase[@language='francais']">
         <xsl:choose>
+            <!-- Si la phrase est dans un dialogue -->
             <xsl:when test="../@type='dialogue'">
                 <tr>
                     <td width="50">
@@ -74,12 +76,14 @@
                     </td>
                     <td>
                         <xsl:choose>
+                            <!-- Si la phrase contient 'mouton' -->
                             <xsl:when test="contains(., 'mouton')">
-                                <font style="font-size: large; font-weight: bold;">
+                                <font style="font-size: 24px; font-weight: bold;">
                                     <xsl:value-of select="." />
                                     <img src="images/moutonDessin.png" />
                                 </font>
                             </xsl:when>
+                            <!-- Si la phrase ne contient pas 'mouton' -->
                             <xsl:otherwise>
                                 <font>
                                     <xsl:value-of select="." />
@@ -89,10 +93,23 @@
                     </td>
                 </tr>
             </xsl:when>
+            <!-- Si la phrase n'est pas dans un dialogue -->
             <xsl:otherwise>
-                <font>
-                    <xsl:value-of select="." />
-                </font>
+                <xsl:choose>
+                    <!-- Si la phrase contient 'mouton' -->
+                    <xsl:when test="contains(., 'mouton')">
+                        <span style="font-size: 24px; font-weight: bold;">
+                            <xsl:value-of select="." />
+                            <img src="images/moutonDessin.png" />
+                        </span>
+                    </xsl:when>
+                    <!-- Si la phrase ne contient pas 'mouton' -->
+                    <xsl:otherwise>
+                        <span>
+                            <xsl:value-of select="." />
+                        </span>
+                    </xsl:otherwise>
+                </xsl:choose>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -128,7 +145,7 @@
                     <td witdh="45%">
                         <table border="1" cellpadding="10" width="100%">
                             <tbody>
-                                <!-- Appliquer le template pour les phrases en français -->
+                                <!-- Application du template pour les phrases en français -->
                                 <xsl:apply-templates select="phrase[@language='francais']" />
                             </tbody>
                         </table>
@@ -137,7 +154,7 @@
                     <td width="45%">
                         <table border="1" cellpadding="10" width="100%">
                             <tbody>
-                                <!-- Appliquer le template pour les phrases en hongrois -->
+                                <!-- Application du template pour les phrases en hongrois -->
                                 <xsl:apply-templates select="phrase[@language='hongrois']" />
                             </tbody>
                         </table>
@@ -150,7 +167,7 @@
     <!-- Template pour le titre -->
     <xsl:template match="title">
         <h1 style="text-align:center; color:blue;">
-        <xsl:value-of select="." />
+            <xsl:value-of select="." />
         </h1>
     </xsl:template>
 
@@ -166,16 +183,18 @@
         <blockquote>
             <font color="darkgreen">
                 But du TP du
-                <xsl:apply-templates select="date" />:
+                <xsl:apply-templates select="date" />
+:
                 <xsl:apply-templates select="styling_description" />
                 <br />
                 Auteurs:
                 <xsl:apply-templates select="styled_by/style_manager[1]" />
                 et
                 <xsl:apply-templates select="styled_by/style_manager[2]" />
-                ( <xsl:apply-templates select="styled_by/NoBinome" /> )
+                (                <xsl:apply-templates select="styled_by/NoBinome" />
+ )
                 <br />
-                Email du responsable:
+                Email des responsables:
                 <xsl:apply-templates select="email" />
             </font>
         </blockquote>

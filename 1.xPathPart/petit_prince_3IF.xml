@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE the_text SYSTEM "petit_prince_3IF.dtd">
-
- <?xml-stylesheet type="text/xsl" href="petit_prince_3IF.xsl"?> 
-
+<!--
+<?xml-stylesheet type="text/xsl" href="petit-prince.xsl"?>
+-->
 <the_text>
   <the_header>
     <title>LePetitPrince</title>
@@ -11,12 +11,12 @@
     <styling_information>
       <styling_description>Traitement d'un texte franco/hongrois avec XPath / XSLT / XQuery</styling_description>
       <styled_by>
-        <style_manager>Simon Perret</style_manager>
-        <style_manager>Saad El Ghissassi </style_manager>
-        <NoBinome>B3423</NoBinome>
+        <style_manager>Moi</style_manager>
+        <style_manager>Mon binome</style_manager>
+        <NoBinome>B3100</NoBinome>
       </styled_by>
-      <email>simon.perret@insa-lyon.fr</email>
-      <date>06/03/2024</date>
+      <email>text</email>
+      <date>01/05/201</date>
     </styling_information>
     <link language="francais">http://wikilivres.info/wiki/Le_Petit_Prince</link>
     <link language="hongrois">http://mek.oszk.hu/00300/00384/00384.pdf</link>
